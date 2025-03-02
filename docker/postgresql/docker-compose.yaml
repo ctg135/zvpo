@@ -1,0 +1,13 @@
+services:
+  postgres:
+    container_name: postgresql
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRESQL_USER}
+      POSTGRES_PASSWORD: ${POSTGRESQL_USER_PASSWORD}
+      PGDATA: /data/postgres
+    volumes:
+      - ./data:/data/postgres
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
