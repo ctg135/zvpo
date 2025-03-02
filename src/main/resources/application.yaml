@@ -1,3 +1,12 @@
 spring:
   application:
     name: "zvpo"
+  datasource:
+    url: jdbc:postgresql://192.168.74.129:5432/zvpo
+    username: "pg"
+    password: "0000"
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
