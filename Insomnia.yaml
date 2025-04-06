@@ -16,7 +16,7 @@ collection:
         meta:
           id: fld_cc9375c424854d47a70db9723fffb1e5
           created: 1743944007075
-          modified: 1743949663349
+          modified: 1743949864465
           sortKey: -1743944007075
         children:
           - url: "{{ _.base_url }}{{ _.path }}/get"
@@ -102,7 +102,7 @@ collection:
             meta:
               id: req_096fad06d5e3407dbef0f9e6535e91a1
               created: 1743946527487
-              modified: 1743948814767
+              modified: 1743959295305
               isPrivate: false
               sortKey: -1743944008348
             method: POST
@@ -116,9 +116,7 @@ collection:
                 	"remainderLength": 3,
                 	"fileType": "txt",
                 	"offsetStart": 3,
-                	"offsetEnd": 3,
-                	"updatedAt": "2025-04-06T00:00:00Z",
-                	"status": "ACTUAL"
+                	"offsetEnd": 3
                 }
             headers:
               - name: Content-Type
@@ -138,7 +136,7 @@ collection:
             meta:
               id: req_8c9de1371a3341d49768c4c3b112fd9f
               created: 1743948801086
-              modified: 1743948877104
+              modified: 1743960855162
               isPrivate: false
               sortKey: -1743944008298
             method: DELETE
@@ -146,7 +144,7 @@ collection:
               mimeType: application/json
               text: |
                 {
-                	"uuid": "25d4720c-0003-4030-bbbc-e62e3570ac96"
+                	"uuid": "58f7df38-90c1-4a06-b50f-ddc43f27bf2f"
                 }
             headers:
               - name: Content-Type
@@ -194,25 +192,25 @@ collection:
             meta:
               id: req_0ef35d1621104bcb8319f89c8d747a29
               created: 1743949476441
-              modified: 1743949521680
+              modified: 1743960841893
               isPrivate: false
               sortKey: -1743944008148
             method: POST
             body:
               mimeType: application/json
-              text: |
+              text: |-
                 {
-                		"id": "25d4720c-0003-4030-bbbc-e62e3570ac96",
-                		"threatName": "Test updated signature",
-                		"firstBytes": "poi",
-                		"remainderHash": "iop",
-                		"remainderLength": 3,
-                		"fileType": "txt",
-                		"offsetStart": 3,
-                		"offsetEnd": 3,
-                		"updatedAt": "2025-04-06T00:00:00.000+00:00",
-                		"status": "ACTUAL"
-                	}
+                	"id": "f2016878-4a94-4d47-b4c3-a659b9fff28c",
+                	"threatName": "New threat name",
+                	"firstBytes": "poi",
+                	"remainderHash": "new hash",
+                	"remainderLength": 3,
+                	"fileType": "txt",
+                	"offsetStart": 3,
+                	"offsetEnd": 3,
+                	"updatedAt": "2025-04-06T17:08:17.488+00:00",
+                	"status": "ACTUAL"
+                }
             headers:
               - name: Content-Type
                 value: application/json
