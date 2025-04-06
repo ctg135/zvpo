@@ -42,23 +42,17 @@ public class SignatureController {
     @RequestMapping("/get")
     public ResponseEntity<List<SignatureEntity>> getSignatures(){
         // Список актуальных сигнатур
-        /*
-        TODO: Вместо объектов сигнатур пустые скобки, похоже не сериализуется
-         */
-        var signatures = signatureRepository.findAll();
+        List<SignatureEntity> signatures = signatureRepository.findByStatus("ACTUAL");
         return ResponseEntity.status(200).body(signatures);
     }
 
     @PostMapping
     @RequestMapping("/get/diff")
     public ResponseEntity<List<SignatureEntity>> getSignaturesByDiff(
-            @BindParam("since")
+            @RequestBody
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
             Date since){
-        // Список сигнатур с какой-то даты
-        /*
-        TODO: Возвращает пустой список всегда. Видимо нужно добавить
-         */
+        // Список сигнатур с определенной даты
         var signatures = signatureRepository.findByUpdatedAtAfter(since);
         return ResponseEntity.status(200).body(signatures);
     }

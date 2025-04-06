@@ -10,32 +10,32 @@ public class SignatureEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(nullable = false)
-    private UUID id;
+    public UUID id;
 
     @Column(name = "threat_name")
-    private String threatName;
+    public String threatName;
 
     @Column(name = "first_bytes")
-    private String firstBytes;
+    public String firstBytes;
 
     @Column(name = "remainder_hash")
-    private String remainderHash;
+    public String remainderHash;
 
     @Column(name = "remainder_length")
-    private int remainderLength;
+    public int remainderLength;
 
     @Column(name = "file_type")
-    private String fileType;
+    public String fileType;
 
     @Column(name = "offset_start")
-    private int offsetStart;
+    public int offsetStart;
 
     @Column(name = "offset_end")
-    private int offsetEnd;
+    public int offsetEnd;
 
     @Column(name = "updated_at")
-    private Date updatedAt;
+    public Date updatedAt;
 
     @Column(name = "status")
-    private String status;
+    public String status;
 }
