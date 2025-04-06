@@ -7,22 +7,22 @@ meta:
 collection:
   - name: ZVPO
     meta:
-      id: fld_68a0cfcceece4f64984fa868109e0dc1
+      id: fld_971c48a85acc47e38eaaa24d48fd2475
       created: 1743943993108
       modified: 1743944042696
       sortKey: -1743943993108
     children:
       - name: Signatures
         meta:
-          id: fld_af1b39e7c1d34ac98bf37421ed90d95b
+          id: fld_cc9375c424854d47a70db9723fffb1e5
           created: 1743944007075
-          modified: 1743944098949
+          modified: 1743949663349
           sortKey: -1743944007075
         children:
           - url: "{{ _.base_url }}{{ _.path }}/get"
             name: Get Actual
             meta:
-              id: req_8310cda2ce684f26852601f576fc144a
+              id: req_672bd95ba24f425ab6ba862475145b25
               created: 1743943995675
               modified: 1743944203124
               isPrivate: false
@@ -42,7 +42,7 @@ collection:
           - url: "{{ _.base_url }}{{ _.path }}/get/diff"
             name: By Diff
             meta:
-              id: req_70b11f7b88764c52995fa1a8471c0fe8
+              id: req_d861048e4028480687c3d8d9615d8ec3
               created: 1743944232154
               modified: 1743945436411
               isPrivate: false
@@ -70,7 +70,7 @@ collection:
           - url: "{{ _.base_url }}{{ _.path }}/get/uuid"
             name: By UUIDs List
             meta:
-              id: req_baf5d6fb9afd4f0ea87f4701a9f02989
+              id: req_f07771ae6b60428db00df84701f82841
               created: 1743945800071
               modified: 1743945971542
               isPrivate: false
@@ -84,6 +84,135 @@ collection:
                 		"22997918-59e7-49d3-bbfe-759a09a23e9e"
                 	]
                 }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}{{ _.path }}/add"
+            name: Add
+            meta:
+              id: req_096fad06d5e3407dbef0f9e6535e91a1
+              created: 1743946527487
+              modified: 1743948814767
+              isPrivate: false
+              sortKey: -1743944008348
+            method: POST
+            body:
+              mimeType: application/json
+              text: |
+                {
+                	"threatName": "Test added signature",
+                	"firstBytes": "poi",
+                	"remainderHash": "iop",
+                	"remainderLength": 3,
+                	"fileType": "txt",
+                	"offsetStart": 3,
+                	"offsetEnd": 3,
+                	"updatedAt": "2025-04-06T00:00:00Z",
+                	"status": "ACTUAL"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}{{ _.path }}/delete"
+            name: Delete by UUID
+            meta:
+              id: req_8c9de1371a3341d49768c4c3b112fd9f
+              created: 1743948801086
+              modified: 1743948877104
+              isPrivate: false
+              sortKey: -1743944008298
+            method: DELETE
+            body:
+              mimeType: application/json
+              text: |
+                {
+                	"uuid": "25d4720c-0003-4030-bbbc-e62e3570ac96"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}{{ _.path }}/get/status"
+            name: By Status
+            meta:
+              id: req_96f215e1912f405e89056b57de37344e
+              created: 1743949091050
+              modified: 1743949153985
+              isPrivate: false
+              sortKey: -1743944008198
+            method: POST
+            body:
+              mimeType: application/json
+              text: |
+                {
+                	"status": "DELETED"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}{{ _.path }}/update"
+            name: Update
+            meta:
+              id: req_0ef35d1621104bcb8319f89c8d747a29
+              created: 1743949476441
+              modified: 1743949521680
+              isPrivate: false
+              sortKey: -1743944008148
+            method: POST
+            body:
+              mimeType: application/json
+              text: |
+                {
+                		"id": "25d4720c-0003-4030-bbbc-e62e3570ac96",
+                		"threatName": "Test updated signature",
+                		"firstBytes": "poi",
+                		"remainderHash": "iop",
+                		"remainderLength": 3,
+                		"fileType": "txt",
+                		"offsetStart": 3,
+                		"offsetEnd": 3,
+                		"updatedAt": "2025-04-06T00:00:00.000+00:00",
+                		"status": "ACTUAL"
+                	}
             headers:
               - name: Content-Type
                 value: application/json
