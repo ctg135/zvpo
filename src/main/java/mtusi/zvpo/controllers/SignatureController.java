@@ -1,21 +1,34 @@
 package mtusi.zvpo.controllers;
 
 import mtusi.zvpo.controllers.requestEntities.*;
+import mtusi.zvpo.entites.AuditEntity;
+import mtusi.zvpo.entites.HistoryEntity;
 import mtusi.zvpo.entites.SignatureEntity;
+import mtusi.zvpo.repositories.AuditRepository;
+import mtusi.zvpo.repositories.HistoryRepository;
 import mtusi.zvpo.repositories.SignatureRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/signature")
 public class SignatureController {
     private SignatureRepository signatureRepository;
+    private HistoryRepository historyRepository;
+    private AuditRepository auditRepository;
 
-    public SignatureController(SignatureRepository signatureRepository){
-        this.signatureRepository = signatureRepository;
+    public SignatureController(
+            SignatureRepository signatureRepository,
+            HistoryRepository historyRepository,
+            AuditRepository auditRepository){
+        this.signatureRepository    = signatureRepository;
+        this.auditRepository        = auditRepository;
+        this.historyRepository      = historyRepository;
     }
 
     @GetMapping
@@ -56,23 +69,20 @@ public class SignatureController {
     @PostMapping
     @RequestMapping("/add")
     public ResponseEntity<SignatureEntity> addSignature(
-            @RequestBody SignatureRequestAdd signature){
+            @RequestBody SignatureEntity signature){
         // Создает сигнатуру по запросу
         /*
         TODO: При добавлении алгоритма хеширования
          пересмотреть работу контроллера
         */
-        SignatureEntity newItem = new SignatureEntity();
-        newItem.threatName           = signature.threatName;
-        newItem.firstBytes           = signature.firstBytes;
-        newItem.remainderHash        = signature.remainderHash;
-        newItem.remainderLength      = signature.remainderLength;
-        newItem.fileType             = signature.fileType;
-        newItem.offsetStart          = signature.offsetStart;
-        newItem.offsetEnd            = signature.offsetEnd;
-        newItem.updatedAt            = signature.updatedAt;
-        newItem.status               = signature.status;
-        var addedItem = this.signatureRepository.save(newItem);
+        signature.id = null;
+        signature.updatedAt = new Date();
+        signature.status = "ACTUAL";
+        var addedItem = this.signatureRepository.save(signature);
+
+        var audit = AuditEntity.generateAdded(addedItem);
+        auditRepository.save(audit);
+
         return ResponseEntity.status(200).body(addedItem);
     }
 
@@ -88,21 +98,42 @@ public class SignatureController {
 
         var deleted = signature.get();
         deleted.status = "DELETED";
-        this.signatureRepository.save(deleted);
+
+        signatureRepository.save(deleted);
+
+        AuditEntity audit = AuditEntity.generateDeleted(deleted);
+        auditRepository.save(audit);
 
         return ResponseEntity.status(200).build();
     }
 
     @PostMapping
     @RequestMapping("/update")
-    public ResponseEntity<Void> updateSignature(
+    public ResponseEntity<SignatureEntity> updateSignature(
             @RequestBody SignatureEntity signature){
         // Обновление сигнатуры
         // TODO: добавить аудит
         //        1. По новым данным создается новая запись
         //        2. На старой записи ставится статус UPDATED
         //        3. Измененные поля записываются в таблицу audit
-        signatureRepository.save(signature);
-        return ResponseEntity.status(200).build();
+        var old = signatureRepository.findById(signature.id);
+
+        if (old.isEmpty())
+            return ResponseEntity.status(404).build();
+
+        var oldSignature = old.get().clone();
+        signature.id = null;
+        signature.updatedAt = new Date();
+        var newSignature = signatureRepository.save(signature);
+
+        AuditEntity audit = AuditEntity.generateUpdated(oldSignature, newSignature);
+        auditRepository.save(audit);
+        HistoryEntity history = HistoryEntity.generate(oldSignature);
+        historyRepository.save(history);
+
+        oldSignature.status = "UPDATED";
+        signatureRepository.save(oldSignature);
+
+        return ResponseEntity.status(200).body(newSignature);
     }
 }

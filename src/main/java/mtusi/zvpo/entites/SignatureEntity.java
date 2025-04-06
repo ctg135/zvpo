@@ -38,4 +38,21 @@ public class SignatureEntity {
 
     @Column(name = "status")
     public String status;
+
+    public SignatureEntity clone(){
+        var result = new SignatureEntity();
+
+        result.id = this.id;
+        result.threatName = this.threatName;
+        result.firstBytes = this.firstBytes;
+        result.remainderHash = this.remainderHash;
+        result.remainderLength = this.remainderLength;
+        result.fileType = this.fileType;
+        result.offsetStart = this.offsetStart;
+        result.offsetEnd = this.offsetEnd;
+        result.updatedAt = this.updatedAt;
+        result.status = this.status;
+
+        return result;
+    }
 }
