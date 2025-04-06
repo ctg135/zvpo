@@ -1,14 +1,13 @@
 package mtusi.zvpo.controllers;
 
+import mtusi.zvpo.controllers.requestEntities.SignatureRequestByDiff;
+import mtusi.zvpo.controllers.requestEntities.SignatureRequestByUUIDs;
 import mtusi.zvpo.entites.SignatureEntity;
 import mtusi.zvpo.repositories.SignatureRepository;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/signature")
@@ -49,23 +48,18 @@ public class SignatureController {
     @PostMapping
     @RequestMapping("/get/diff")
     public ResponseEntity<List<SignatureEntity>> getSignaturesByDiff(
-            @RequestBody
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-            Date since){
+            @RequestBody SignatureRequestByDiff body){
         // Список сигнатур с определенной даты
-        var signatures = signatureRepository.findByUpdatedAtAfter(since);
+        var signatures = signatureRepository.findByUpdatedAtAfter(body.since);
         return ResponseEntity.status(200).body(signatures);
     }
 
     @PostMapping
-    @RequestMapping("/get/uuids")
+    @RequestMapping("/get/uuid")
     public ResponseEntity<List<SignatureEntity>> getSignaturesByUUID(
-            @BindParam("uuids") List<UUID> uuids){
+            @RequestBody SignatureRequestByUUIDs body){
         // Список сигнатур по списку UUID
-        /*
-        TODO: Падает на этапе обработки входных данных массива
-         */
-        var signatures = signatureRepository.findByIdIn(uuids);
+        var signatures = signatureRepository.findByIdIn(body.uuids);
         return ResponseEntity.status(200).body(signatures);
     }
 

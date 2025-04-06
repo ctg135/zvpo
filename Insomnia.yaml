@@ -7,28 +7,86 @@ meta:
 collection:
   - name: ZVPO
     meta:
-      id: fld_a55bd0afaa90415bbc07a920fa3d44f3
+      id: fld_68a0cfcceece4f64984fa868109e0dc1
       created: 1743943993108
       modified: 1743944042696
       sortKey: -1743943993108
     children:
       - name: Signatures
         meta:
-          id: fld_5446a0f2f4f54b5889ef1399f5d11c53
+          id: fld_af1b39e7c1d34ac98bf37421ed90d95b
           created: 1743944007075
           modified: 1743944098949
           sortKey: -1743944007075
         children:
           - url: "{{ _.base_url }}{{ _.path }}/get"
-            name: Get All
+            name: Get Actual
             meta:
-              id: req_efac60f9f9a64b3a822230689bd27249
+              id: req_8310cda2ce684f26852601f576fc144a
               created: 1743943995675
-              modified: 1743944133441
+              modified: 1743944203124
               isPrivate: false
               sortKey: -1743944008498
             method: GET
             headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}{{ _.path }}/get/diff"
+            name: By Diff
+            meta:
+              id: req_70b11f7b88764c52995fa1a8471c0fe8
+              created: 1743944232154
+              modified: 1743945436411
+              isPrivate: false
+              sortKey: -1743944008448
+            method: POST
+            body:
+              mimeType: application/json
+              text: |
+                {
+                	"since": "2025-04-03T00:00:00Z"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}{{ _.path }}/get/uuid"
+            name: By UUIDs List
+            meta:
+              id: req_baf5d6fb9afd4f0ea87f4701a9f02989
+              created: 1743945800071
+              modified: 1743945971542
+              isPrivate: false
+              sortKey: -1743944008398
+            method: POST
+            body:
+              mimeType: application/json
+              text: |
+                {
+                	"uuids": [
+                		"22997918-59e7-49d3-bbfe-759a09a23e9e"
+                	]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
               - name: User-Agent
                 value: insomnia/11.0.2
             settings:
