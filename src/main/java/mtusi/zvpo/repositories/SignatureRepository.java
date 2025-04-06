@@ -1,6 +1,7 @@
-package mtusi.zvpo;
+package mtusi.zvpo.repositories;
 
 
+import mtusi.zvpo.entites.SignatureEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

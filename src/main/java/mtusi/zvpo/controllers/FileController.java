@@ -1,6 +1,7 @@
-package mtusi.zvpo;
+package mtusi.zvpo.controllers;
 
-import jakarta.persistence.Lob;
+import mtusi.zvpo.entites.FileEntity;
+import mtusi.zvpo.repositories.MyFileRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

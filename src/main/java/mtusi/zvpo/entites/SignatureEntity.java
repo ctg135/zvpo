@@ -1,4 +1,4 @@
-package mtusi.zvpo;
+package mtusi.zvpo.entites;
 
 import jakarta.persistence.*;
 import java.util.Date;

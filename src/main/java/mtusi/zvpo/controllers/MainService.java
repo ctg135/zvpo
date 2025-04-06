@@ -1,6 +1,5 @@
-package mtusi.zvpo;
+package mtusi.zvpo.controllers;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;

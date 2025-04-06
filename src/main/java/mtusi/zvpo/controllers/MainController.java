@@ -1,4 +1,4 @@
-package mtusi.zvpo;
+package mtusi.zvpo.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

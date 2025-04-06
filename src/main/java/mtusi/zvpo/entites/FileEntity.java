@@ -1,7 +1,6 @@
-package mtusi.zvpo;
+package mtusi.zvpo.entites;
 
 import jakarta.persistence.*;
-import org.springframework.data.repository.ListCrudRepository;
 
 @Entity
 @Table(name = "files")
