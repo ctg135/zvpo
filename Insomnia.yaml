@@ -1,0 +1,58 @@
+type: collection.insomnia.rest/5.0
+name: Scratch Pad
+meta:
+  id: wrk_scratchpad
+  created: 1743793375227
+  modified: 1743793375227
+collection:
+  - name: ZVPO
+    meta:
+      id: fld_a55bd0afaa90415bbc07a920fa3d44f3
+      created: 1743943993108
+      modified: 1743944042696
+      sortKey: -1743943993108
+    children:
+      - name: Signatures
+        meta:
+          id: fld_5446a0f2f4f54b5889ef1399f5d11c53
+          created: 1743944007075
+          modified: 1743944098949
+          sortKey: -1743944007075
+        children:
+          - url: "{{ _.base_url }}{{ _.path }}/get"
+            name: Get All
+            meta:
+              id: req_efac60f9f9a64b3a822230689bd27249
+              created: 1743943995675
+              modified: 1743944133441
+              isPrivate: false
+              sortKey: -1743944008498
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+        environment:
+          path: /signature
+    environment:
+      base_url: http://127.0.0.1:8080
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1743793401070
+    modified: 1743793561705
+environments:
+  name: Base Environment
+  meta:
+    id: env_99d30891da4bdcebc63947a8fc17f076de878684
+    created: 1743793400862
+    modified: 1743793561706
+    isPrivate: false
