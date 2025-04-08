@@ -21,6 +21,7 @@ public class FileController {
     @PostMapping
     @RequestMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam(name = "file") MultipartFile file) {
+        // TODO: Сделать сканирование на сигнатуры для файлов
         if (file.isEmpty()) {
             return  ResponseEntity.badRequest().body("Empty file");
         }

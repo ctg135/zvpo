@@ -18,6 +18,9 @@ public class SignatureEntity {
     @Column(name = "first_bytes")
     public String firstBytes;
 
+    @Column(name = "first_bytes_hash")
+    public int firstBytesHash;
+
     @Column(name = "remainder_hash")
     public String remainderHash;
 

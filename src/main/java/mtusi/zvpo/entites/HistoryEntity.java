@@ -25,6 +25,9 @@ public class HistoryEntity {
     @Column(name = "first_bytes")
     public String firstBytes;
 
+    @Column(name = "first_bytes_hash")
+    public int firstBytesHash;
+
     @Column(name = "remainder_hash")
     public String remainderHash;
 
@@ -56,6 +59,7 @@ public class HistoryEntity {
         result.remainderLength      = signature.remainderLength;
         result.remainderHash        = signature.remainderHash;
         result.firstBytes           = signature.fileType;
+        result.firstBytesHash       = signature.firstBytesHash;
         result.fileType             = signature.fileType;
         result.offsetStart          = signature.offsetStart;
         result.offsetEnd            = signature.offsetEnd;

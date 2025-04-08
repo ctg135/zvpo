@@ -1,5 +1,6 @@
 package mtusi.zvpo.controllers;
 
+import mtusi.zvpo.RabinKarpAlgorithm;
 import mtusi.zvpo.controllers.requestEntities.*;
 import mtusi.zvpo.entites.AuditEntity;
 import mtusi.zvpo.entites.HistoryEntity;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/signature")
@@ -69,13 +69,14 @@ public class SignatureController {
     @PostMapping
     @RequestMapping("/add")
     public ResponseEntity<SignatureEntity> addSignature(
-            @RequestBody SignatureEntity signature){
+            @RequestBody SignatureAddRaw add){
         // Создает сигнатуру по запросу
-        /*
-        TODO: При добавлении алгоритма хеширования
-         пересмотреть работу контроллера
-        */
+        var algorithm = new RabinKarpAlgorithm();
+        var signature = algorithm.extractSignature(add.input);
+
         signature.id = null;
+        signature.fileType = add.fileType;
+        signature.threatName = add.name;
         signature.updatedAt = new Date();
         signature.status = "ACTUAL";
         var addedItem = this.signatureRepository.save(signature);
@@ -86,12 +87,22 @@ public class SignatureController {
         return ResponseEntity.status(200).body(addedItem);
     }
 
+    @PostMapping
+    @RequestMapping("/scan")
+    public ResponseEntity<List<SignatureEntity>> scanSignature(
+            @RequestBody String input){
+        // Сканирует сигнтуру (тесты) в сыром формате
+        var algorithm = new RabinKarpAlgorithm();
+        var result = algorithm.scanString(input, signatureRepository.findAll());
+
+        return ResponseEntity.status(200).body(result);
+    }
+
     @DeleteMapping
     @RequestMapping("/delete")
     public ResponseEntity<Void> deleteSignatureByUUID(
             @RequestBody SignatureRequestDeleteByUUID body){
         // "Удаление" записи по UUID
-        // TODO: Добавить аудит
         var signature = signatureRepository.findById(body.uuid);
         if (signature.isEmpty())
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -112,10 +123,7 @@ public class SignatureController {
     public ResponseEntity<SignatureEntity> updateSignature(
             @RequestBody SignatureEntity signature){
         // Обновление сигнатуры
-        // TODO: добавить аудит
-        //        1. По новым данным создается новая запись
-        //        2. На старой записи ставится статус UPDATED
-        //        3. Измененные поля записываются в таблицу audit
+        // TODO: Сделать как в /add чтобы сигнатура перерасчитывалась сама
         var old = signatureRepository.findById(signature.id);
 
         if (old.isEmpty())

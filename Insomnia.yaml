@@ -44,7 +44,7 @@ collection:
             meta:
               id: req_d861048e4028480687c3d8d9615d8ec3
               created: 1743944232154
-              modified: 1743945436411
+              modified: 1744142517948
               isPrivate: false
               sortKey: -1743944008448
             method: POST
@@ -52,7 +52,7 @@ collection:
               mimeType: application/json
               text: |
                 {
-                	"since": "2025-04-03T00:00:00Z"
+                	"since": "2025-04-08T19:41:58Z"
                 }
             headers:
               - name: Content-Type
@@ -72,7 +72,7 @@ collection:
             meta:
               id: req_f07771ae6b60428db00df84701f82841
               created: 1743945800071
-              modified: 1743945971542
+              modified: 1744142553598
               isPrivate: false
               sortKey: -1743944008398
             method: POST
@@ -81,7 +81,7 @@ collection:
               text: |
                 {
                 	"uuids": [
-                		"22997918-59e7-49d3-bbfe-759a09a23e9e"
+                		"b907c977-d84b-4588-9367-a2a671f20860"
                 	]
                 }
             headers:
@@ -102,7 +102,7 @@ collection:
             meta:
               id: req_096fad06d5e3407dbef0f9e6535e91a1
               created: 1743946527487
-              modified: 1743959295305
+              modified: 1744142759583
               isPrivate: false
               sortKey: -1743944008348
             method: POST
@@ -110,13 +110,9 @@ collection:
               mimeType: application/json
               text: |
                 {
-                	"threatName": "Test added signature",
-                	"firstBytes": "poi",
-                	"remainderHash": "iop",
-                	"remainderLength": 3,
-                	"fileType": "txt",
-                	"offsetStart": 3,
-                	"offsetEnd": 3
+                	"name": "temp",
+                	"fileType": "raw",
+                	"input": "temp"
                 }
             headers:
               - name: Content-Type
@@ -136,7 +132,7 @@ collection:
             meta:
               id: req_8c9de1371a3341d49768c4c3b112fd9f
               created: 1743948801086
-              modified: 1743960855162
+              modified: 1743962920431
               isPrivate: false
               sortKey: -1743944008298
             method: DELETE
@@ -144,7 +140,7 @@ collection:
               mimeType: application/json
               text: |
                 {
-                	"uuid": "58f7df38-90c1-4a06-b50f-ddc43f27bf2f"
+                	"uuid": "873f5c21-c69f-4b71-8911-ee8faa9bd707"
                 }
             headers:
               - name: Content-Type
@@ -192,25 +188,51 @@ collection:
             meta:
               id: req_0ef35d1621104bcb8319f89c8d747a29
               created: 1743949476441
-              modified: 1743960841893
+              modified: 1744143275616
               isPrivate: false
               sortKey: -1743944008148
             method: POST
             body:
               mimeType: application/json
-              text: |-
+              text: >-
                 {
-                	"id": "f2016878-4a94-4d47-b4c3-a659b9fff28c",
-                	"threatName": "New threat name",
-                	"firstBytes": "poi",
-                	"remainderHash": "new hash",
-                	"remainderLength": 3,
-                	"fileType": "txt",
-                	"offsetStart": 3,
-                	"offsetEnd": 3,
-                	"updatedAt": "2025-04-06T17:08:17.488+00:00",
-                	"status": "ACTUAL"
+                	"id": "a3c3701f-378b-4471-97a9-26e005f6346a",
+                	"threatName": "Test added signature 2",
+                	"firstBytes": "biba_bob",
+                	"firstBytesHash": 123123123,
+                	"remainderHash": "ypeBEsobvcr6wjGzmiPcTaeG7/gUfE5yuYB3ha/uSLs=",
+                	"remainderLength": 123,
+                	"fileType": "boba",
+                	"offsetStart": 132,
+                	"offsetEnd": 123,
+                	"updatedAt": "2025-04-08T19:18:12.243+00:00",
+                	"status": ""
                 }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}{{ _.path }}/scan"
+            name: Scan (TEST)
+            meta:
+              id: req_0921eccd4e40430db48ca5c1d8811809
+              created: 1744134986023
+              modified: 1744142645801
+              isPrivate: false
+              sortKey: -1743944008323
+            method: POST
+            body:
+              mimeType: application/json
+              text: 123123biba_boba_bebra123123цйуйцу8888888888temp
             headers:
               - name: Content-Type
                 value: application/json
