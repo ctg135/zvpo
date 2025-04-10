@@ -11,15 +11,8 @@ import java.util.List;
 
 public class RabinKarpAlgorithm {
 
-    /*
-    TODO:
-        1. Сделать второй конструктор класса для задания констант
-        2. Написать тесты алгоритма
-     */
-
     // Простое число для хеширования
-    private final int MOD = 101;
-//    private final int MOD = 1695191;
+    private final int MOD = 113;
     // Алфавит значений байта
     private final int BASE = 256;
     // Длина окна
@@ -51,8 +44,6 @@ public class RabinKarpAlgorithm {
             char lastByte,
             int h){
         // Пересчитывает хеш для окна смещения
-//        int result = (BASE * (prevHash - firstByte * h) + lastByte) % MOD;
-        // haystackHash = (d * (haystackHash - haystack.charCodeAt(i) * fastHash) + haystack.charCodeAt(i + needleLen)) % prime
         int result = (BASE * (prevHash - (byte)firstByte * h) + (byte)lastByte) % MOD;
         return result < 0 ? result + MOD : result;
     }
@@ -76,95 +67,54 @@ public class RabinKarpAlgorithm {
         int m = Math.min(text.length(), M);
 
         // Инициализация константы для расчета
-        int h = 1;
-        int rollingHash = 0;
+        int h = initH(m);
 
-        for (int i = 0; i < m - 1; i++) {
-            h = (h * BASE) % MOD;
-        }
-
-        for (int i = 0; i < m; i++) {
-            rollingHash = (BASE * rollingHash + (byte)text.charAt(i)) % MOD;
-        }
+        int rollingHash = getFirstHash(text.substring(0, m));
 
         for (int i = 0; i <= text.length() - m; i++){
+
             for (SignatureEntity signature : signatures)
             {
                 // Если не совпал хеш, ищем совпадения дальше
                 if (rollingHash != signature.firstBytesHash)
                     continue;
+
                 // Если не совпали первые байты, то ищем совпадения дальше
                 if (!text.substring(i, i + m).equals(signature.firstBytes))
                     continue;
+
                 // Если длинны хвоста хватает, то хвост точно не совпадает, ищем дальше
                 if (text.substring(i + m).length() < signature.remainderLength)
                     continue;
+
                 // Получение "хвоста" проверяемой строки
                 String remainder = text.substring(i + m, i + m + signature.remainderLength);
                 var remainderHash = getStringHash(remainder);
                 // Если не совпадает хеш хвоста, то ищем дальше
                 if (!remainderHash.equals(signature.remainderHash))
                     continue;
-                // Если хеш совпал, то дописываем найденные смещения в результат
-                signature.offsetStart = i;
-                signature.offsetEnd = i + m + signature.remainderLength;
+
+                // Если сигнатура не находится в нужном месте, то ищем дальше
+                if (signature.offsetStart != i && signature.offsetEnd != i + remainder.length())
+                    continue;
+
+                // Дописываем найденную сигнатуру в результат
                 founded.add(signature);
             }
 
             if (i < text.length() - m) {
-                // haystackHash = (d * (haystackHash - haystack.charCodeAt(i) * fastHash) + haystack.charCodeAt(i + needleLen)) % prime
-                rollingHash = (BASE * (rollingHash - (byte)text.charAt(i) * h) + (byte)text.charAt(i + m)) % MOD;
-
-                if (rollingHash < 0)
-                    rollingHash += MOD;
+                // Обновляем хеш
+                rollingHash = getRollingHash(
+                        rollingHash,
+                        text.charAt(i),
+                        text.charAt(i + m),
+                        h
+                );
             }
 
         }
 
         return founded;
-
-
-//        String currentText = text.substring(0, m);
-//
-//        for (int i = 0; i <= text.length() - m; i++)
-//        {
-//            for (SignatureEntity signature : signatures)
-//            {
-//                // Если не совпал хеш, ищем совпадения дальше
-//                if (rollingHash != signature.firstBytesHash)
-//                    continue;
-//                // Если не совпали первые байты, то ищем совпадения дальше
-//                if (!currentText.equals(signature.firstBytes))
-//                    continue;
-//                // Если длинны хвоста хватает, то хвост точно не совпадает, ищем дальше
-//                if (text.substring(i + m).length() < signature.remainderLength)
-//                    continue;
-//                // Получение "хвоста" проверяемой строки
-//                String remainder = text.substring(i + m, i + m + signature.remainderLength);
-//                var remainderHash = getStringHash(remainder);
-//                // Если не совпадает хеш хвоста, то ищем дальше
-//                if (!remainderHash.equals(signature.remainderHash))
-//                    continue;
-//                // Если хеш совпал, то дописываем найденные смещения в результат
-//                signature.offsetStart = i;
-//                signature.offsetEnd = i + m + signature.remainderLength;
-//                founded.add(signature);
-//            }
-//
-//            if (i < text.length() - m){
-//                // haystackHash = (d * (haystackHash - haystack.charCodeAt(i) * fastHash) + haystack.charCodeAt(i + needleLen)) % prime
-//                currentText = text.substring(i, i + m);
-//                //  Пока хеш считается в m итераций
-////                rollingHash = getFirstHash(currentText);
-//                rollingHash = getRollingHash(
-//                        rollingHash,
-//                        currentText.charAt(0),
-//                        currentText.charAt(m - 1),
-//                        h);
-//            }
-//        }
-//
-//        return founded;
     }
 
     public SignatureEntity extractSignature(
