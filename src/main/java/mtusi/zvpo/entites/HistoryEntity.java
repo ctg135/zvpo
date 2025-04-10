@@ -58,7 +58,7 @@ public class HistoryEntity {
         result.threatName           = signature.threatName;
         result.remainderLength      = signature.remainderLength;
         result.remainderHash        = signature.remainderHash;
-        result.firstBytes           = signature.fileType;
+        result.firstBytes           = signature.firstBytes;
         result.firstBytesHash       = signature.firstBytesHash;
         result.fileType             = signature.fileType;
         result.offsetStart          = signature.offsetStart;

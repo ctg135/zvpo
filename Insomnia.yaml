@@ -9,22 +9,581 @@ collection:
     meta:
       id: fld_971c48a85acc47e38eaaa24d48fd2475
       created: 1743943993108
-      modified: 1743944042696
+      modified: 1744323821996
       sortKey: -1743943993108
     children:
       - name: Signatures
         meta:
           id: fld_cc9375c424854d47a70db9723fffb1e5
           created: 1743944007075
-          modified: 1743949864465
+          modified: 1744323821996
           sortKey: -1743944007075
         children:
+          - name: Common test API
+            meta:
+              id: fld_99a4fca48c4841e6916cfb0f7a12ef6a
+              created: 1744317044251
+              modified: 1744323821996
+              sortKey: -1744222751384
+            children:
+              - url: "{{ _.base_url }}{{ _.path }}/add"
+                name: Add signature
+                meta:
+                  id: req_6bec3a273cbd41da93667137bcd38196
+                  created: 1744317498051
+                  modified: 1744323179295
+                  isPrivate: false
+                  sortKey: -1744317504116
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"name": "normal-signature",
+                    	"input": "normal-signature-INSOMNIA"
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.0.2
+                scripts:
+                  afterResponse: >
+                    const currentDate = new Date();
+
+
+                    const jsonBody = insomnia.response.json();
+
+
+                    const myFolder = insomnia.parentFolders.get('Common test API');
+
+                    if (myFolder === undefined) {
+                    	throw Error('myFolder not found');
+                    }
+
+                    myFolder.environment.set('normal-signature', jsonBody);
+
+                    myFolder.environment.set('start-date', currentDate);
+
+                    await new Promise((resolve) => setTimeout(resolve, 1500));
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.base_url }}{{ _.path }}/add"
+                name: Add signature with offset
+                meta:
+                  id: req_5babf35afac742ed8037b6427a6b2bfc
+                  created: 1744317851555
+                  modified: 1744322306353
+                  isPrivate: false
+                  sortKey: -1744130756307
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |-
+                    {
+                    	"name": "normal-signature-with-offset",
+                    	"input": "**********normal-signature-INSOMNIA",
+                    	"offsetStart": 10,
+                    	"fileType": "txt"
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.0.2
+                scripts:
+                  afterResponse: >
+                    const jsonBody = insomnia.response.json();
+
+
+                    const myFolder = insomnia.parentFolders.get('Common test API');
+
+                    if (myFolder === undefined) {
+                    	throw Error('myFolder not found');
+                    }
+
+                    myFolder.environment.set('normal-signature-with-offset', jsonBody);
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.base_url }}{{ _.path }}/scan"
+                name: Scan to find siganture
+                meta:
+                  id: req_eb937469d8fd4fdb9e5deddc3436ad31
+                  created: 1744318697970
+                  modified: 1744321406553
+                  isPrivate: false
+                  sortKey: -1744130756207
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: normal-signature-INSOMNIA
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.0.2
+                scripts:
+                  afterResponse: >+
+                    const myFolder = insomnia.parentFolders.get('Common test
+                    API');
+
+                    if (myFolder === undefined) {
+                    	throw Error('myFolder not found');
+                    }
+
+
+                    const signature = myFolder.environment.get('normal-signature');
+
+                    const jsonBody = insomnia.response.json();
+
+
+                    insomnia.test('Found 1 signature', () => {
+                    		insomnia.expect(jsonBody).to.have.lengthOf(1);
+                    });
+
+
+                    insomnia.test('Check correct founded signature', () => {
+                    		insomnia.expect(jsonBody[0].id).to.eql(signature.id);
+                    });
+
+
+
+
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.base_url }}{{ _.path }}/get"
+                name: Check signatures list by UUID
+                meta:
+                  id: req_44bcbc2388e74369880a5c2a95623648
+                  created: 1744321028756
+                  modified: 1744323345548
+                  isPrivate: false
+                  sortKey: -1744130756257
+                method: GET
+                headers:
+                  - name: User-Agent
+                    value: insomnia/11.0.2
+                scripts:
+                  afterResponse: >+
+                    const myFolder = insomnia.parentFolders.get('Common test
+                    API');
+
+                    if (myFolder === undefined) {
+                    	throw Error('myFolder not found');
+                    }
+
+
+                    const jsonBody = insomnia.response.json();
+
+
+                    insomnia.test('Found 2 signatures', () => {
+                    		insomnia.expect(jsonBody).to.have.lengthOf(2);
+                    });
+
+
+
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.base_url }}{{ _.path }}/scan"
+                name: Scan to NOT find siganture
+                meta:
+                  id: req_a3cd4115d6044454bb828bb4149f8069
+                  created: 1744321266507
+                  modified: 1744321718575
+                  isPrivate: false
+                  sortKey: -1744037382152.5
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: _____normal-signature-INSOMNIA
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.0.2
+                scripts:
+                  afterResponse: >+
+                    
+
+
+
+                    const myFolder = insomnia.parentFolders.get('Common test API');
+
+                    if (myFolder === undefined) {
+                    	throw Error('myFolder not found');
+                    }
+
+
+                    const signature = myFolder.environment.get('normal-signature-with-offset');
+
+                    const jsonBody = insomnia.response.json();
+
+
+                    insomnia.test('Signatures not founded', () => {
+                    		insomnia.expect(jsonBody).to.have.lengthOf(0);
+                    });
+
+
+
+
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.base_url }}{{ _.path }}/scan"
+                name: Scan to find offset siganture
+                meta:
+                  id: req_bd5c4e57a7cf444ba1f7a9ad0c6ce7cd
+                  created: 1744321329600
+                  modified: 1744322336935
+                  isPrivate: false
+                  sortKey: -1744037382252.5
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: ++++++++++normal-signature-INSOMNIA++++++++++
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.0.2
+                scripts:
+                  afterResponse: >+
+                    const myFolder = insomnia.parentFolders.get('Common test
+                    API');
+
+                    if (myFolder === undefined) {
+                    	throw Error('myFolder not found');
+                    }
+
+
+                    const signature = myFolder.environment.get('normal-signature-with-offset');
+
+                    const jsonBody = insomnia.response.json();
+
+
+                    insomnia.test('Found 1 signature', () => {
+                    		insomnia.expect(jsonBody).to.have.lengthOf(1);
+                    });
+
+
+                    insomnia.test('Check correct founded signature', () => {
+                    		insomnia.expect(jsonBody[0].id).to.eql(signature.id);
+                    });
+
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.base_url }}{{ _.path }}/update"
+                name: Update offset to -3
+                meta:
+                  id: req_035f7e7b035748f782ba09010e6234ec
+                  created: 1744321790884
+                  modified: 1744322544104
+                  isPrivate: false
+                  sortKey: -1744037382052.5
+                method: POST
+                body:
+                  mimeType: application/json
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.0.2
+                scripts:
+                  preRequest: >
+                    
+                    const myFolder = insomnia.parentFolders.get('Common test API');
+
+                    if (myFolder === undefined) {
+                    	throw Error('myFolder not found');
+                    }
+
+
+                    var signature = myFolder.environment.get('normal-signature-with-offset');
+
+                    signature.offsetStart = signature.offsetStart - 3
+
+                    signature.offsetEnd = signature.offsetEnd - 3
+
+
+                    insomnia.request.body.update({
+                      mode: 'raw',
+                      raw: JSON.stringify(signature)
+                    });
+                  afterResponse: >
+                    const jsonBody = insomnia.response.json();
+
+
+                    const myFolder = insomnia.parentFolders.get('Common test API');
+
+                    if (myFolder === undefined) {
+                    	throw Error('myFolder not found');
+                    }
+
+                    myFolder.environment.set('normal-signature', jsonBody);
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.base_url }}{{ _.path }}/scan"
+                name: Scan to find siganture with another offset
+                meta:
+                  id: req_68b342de9f084f239d984969e58ed72b
+                  created: 1744322287517
+                  modified: 1744322412636
+                  isPrivate: false
+                  sortKey: -1744037381952.5
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: _______normal-signature-INSOMNIA____
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.0.2
+                scripts:
+                  afterResponse: >
+                    const myFolder = insomnia.parentFolders.get('Common test
+                    API');
+
+                    if (myFolder === undefined) {
+                    	throw Error('myFolder not found');
+                    }
+
+
+                    const signature = myFolder.environment.get('normal-signature-with-offset');
+
+                    const jsonBody = insomnia.response.json();
+
+
+                    insomnia.test('Found 1 signature', () => {
+                    		insomnia.expect(jsonBody).to.have.lengthOf(1);
+                    });
+
+
+                    insomnia.test('Check correct founded signature', () => {
+                    		insomnia.expect(jsonBody[0].id).to.eql(signature.id);
+                    });
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.base_url }}{{ _.path }}/delete"
+                name: Delete offset signature by UUID
+                meta:
+                  id: req_2a07da5b301241b9adb95265ce739a34
+                  created: 1744322502062
+                  modified: 1744322623533
+                  isPrivate: false
+                  sortKey: -1744037381852.5
+                method: DELETE
+                body:
+                  mimeType: application/json
+                  text: |
+                    {
+                    	"uuid": "873f5c21-c69f-4b71-8911-ee8faa9bd707"
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.0.2
+                scripts:
+                  preRequest: >
+                    
+                    const myFolder = insomnia.parentFolders.get('Common test API');
+
+                    if (myFolder === undefined) {
+                    	throw Error('myFolder not found');
+                    }
+
+
+                    var signature = myFolder.environment.get('normal-signature-with-offset');
+
+                    var data = {"uuid": signature.id }
+
+
+                    insomnia.request.body.update({
+                      mode: 'raw',
+                      raw: JSON.stringify(data)
+                    });
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.base_url }}{{ _.path }}/get/status"
+                name: Check that signature is deleted
+                meta:
+                  id: req_431f506fdd8241f69c7ae1f7d0151224
+                  created: 1744322650778
+                  modified: 1744322736980
+                  isPrivate: false
+                  sortKey: -1744037381752.5
+                method: POST
+                body:
+                  mimeType: application/json
+                  text: |
+                    {
+                    	"status": "DELETED"
+                    }
+                headers:
+                  - name: Content-Type
+                    value: application/json
+                  - name: User-Agent
+                    value: insomnia/11.0.2
+                scripts:
+                  afterResponse: >
+                    const myFolder = insomnia.parentFolders.get('Common test
+                    API');
+
+                    if (myFolder === undefined) {
+                    	throw Error('myFolder not found');
+                    }
+
+
+                    const signature = myFolder.environment.get('normal-signature-with-offset');
+
+                    const jsonBody = insomnia.response.json();
+
+
+                    insomnia.test('Found 1 signature', () => {
+                    		insomnia.expect(jsonBody).to.have.lengthOf(1);
+                    });
+
+
+                    insomnia.test('Check correct founded signature', () => {
+                    		insomnia.expect(jsonBody[0].id).to.eql(signature.id);
+                    });
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+              - url: "{{ _.base_url }}{{ _.path }}/get"
+                name: Check  actual is one remain
+                meta:
+                  id: req_4b340527f42f4dc79ed32d746c6ed09a
+                  created: 1744322783553
+                  modified: 1744322808752
+                  isPrivate: false
+                  sortKey: -1744037381652.5
+                method: GET
+                headers:
+                  - name: User-Agent
+                    value: insomnia/11.0.2
+                scripts:
+                  afterResponse: >+
+                    const myFolder = insomnia.parentFolders.get('Common test
+                    API');
+
+                    if (myFolder === undefined) {
+                    	throw Error('myFolder not found');
+                    }
+
+
+                    const jsonBody = insomnia.response.json();
+
+
+                    insomnia.test('Found only one signature', () => {
+                    		insomnia.expect(jsonBody).to.have.lengthOf(1);
+                    });
+
+
+
+                settings:
+                  renderRequestBody: true
+                  encodeUrl: true
+                  followRedirects: global
+                  cookies:
+                    send: true
+                    store: true
+                  rebuildPath: true
+            scripts:
+              afterResponse: |
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+            environment:
+              normal-signature-with-offset:
+                id: 3dfa5dd8-8054-48e8-a88f-cd75d6ff1a60
+                threatName: normal-signature-with-offset
+                firstBytes: normal-s
+                firstBytesHash: 104
+                remainderHash: kDY6h3H++ygbf/4R7izSPXLbKiLOej3mra5flX+wSo4=
+                remainderLength: 17
+                fileType: txt
+                offsetStart: 7
+                offsetEnd: 32
+                updatedAt: 2025-04-10T22:23:41.304+00:00
+                status: ACTUAL
+              normal-signature:
+                id: 3dfa5dd8-8054-48e8-a88f-cd75d6ff1a60
+                threatName: normal-signature-with-offset
+                firstBytes: normal-s
+                firstBytesHash: 104
+                remainderHash: kDY6h3H++ygbf/4R7izSPXLbKiLOej3mra5flX+wSo4=
+                remainderLength: 17
+                fileType: txt
+                offsetStart: 7
+                offsetEnd: 32
+                updatedAt: 2025-04-10T22:23:41.730+00:00
+                status: ACTUAL
           - url: "{{ _.base_url }}{{ _.path }}/get"
             name: Get Actual
             meta:
               id: req_672bd95ba24f425ab6ba862475145b25
               created: 1743943995675
-              modified: 1743944203124
+              modified: 1744323698700
               isPrivate: false
               sortKey: -1743944008498
             method: GET
@@ -44,7 +603,7 @@ collection:
             meta:
               id: req_d861048e4028480687c3d8d9615d8ec3
               created: 1743944232154
-              modified: 1744142517948
+              modified: 1744323732488
               isPrivate: false
               sortKey: -1743944008448
             method: POST
@@ -52,7 +611,7 @@ collection:
               mimeType: application/json
               text: |
                 {
-                	"since": "2025-04-08T19:41:58Z"
+                	"since": "2025-04-10T19:17:53.719+00:00"
                 }
             headers:
               - name: Content-Type
@@ -102,17 +661,16 @@ collection:
             meta:
               id: req_096fad06d5e3407dbef0f9e6535e91a1
               created: 1743946527487
-              modified: 1744142759583
+              modified: 1744316794066
               isPrivate: false
               sortKey: -1743944008348
             method: POST
             body:
               mimeType: application/json
-              text: |
+              text: |-
                 {
-                	"name": "temp",
-                	"fileType": "raw",
-                	"input": "temp"
+                	"name": "normal-signature",
+                	"input": "normal-signature"
                 }
             headers:
               - name: Content-Type
@@ -188,7 +746,7 @@ collection:
             meta:
               id: req_0ef35d1621104bcb8319f89c8d747a29
               created: 1743949476441
-              modified: 1744143275616
+              modified: 1744316981202
               isPrivate: false
               sortKey: -1743944008148
             method: POST
@@ -196,17 +754,17 @@ collection:
               mimeType: application/json
               text: >-
                 {
-                	"id": "a3c3701f-378b-4471-97a9-26e005f6346a",
-                	"threatName": "Test added signature 2",
-                	"firstBytes": "biba_bob",
-                	"firstBytesHash": 123123123,
-                	"remainderHash": "ypeBEsobvcr6wjGzmiPcTaeG7/gUfE5yuYB3ha/uSLs=",
-                	"remainderLength": 123,
-                	"fileType": "boba",
-                	"offsetStart": 132,
-                	"offsetEnd": 123,
-                	"updatedAt": "2025-04-08T19:18:12.243+00:00",
-                	"status": ""
+                	"id": "2a5fc841-9bd8-4e4a-9da3-bf3dbe34560d",
+                	"threatName": "normal-signature-without-offset",
+                	"firstBytes": "normal-s",
+                	"firstBytesHash": 104,
+                	"remainderHash": "nu5pf+xFa72a72q7nVM7LvcH5orbXey22oJnA/i1ZNg=",
+                	"remainderLength": 8,
+                	"fileType": "raw",
+                	"offsetStart": 0,
+                	"offsetEnd": 16,
+                	"updatedAt": "2025-04-10T20:22:27.534+00:00",
+                	"status": "ACTUAL"
                 }
             headers:
               - name: Content-Type
@@ -226,13 +784,13 @@ collection:
             meta:
               id: req_0921eccd4e40430db48ca5c1d8811809
               created: 1744134986023
-              modified: 1744142645801
+              modified: 1744316798553
               isPrivate: false
               sortKey: -1743944008323
             method: POST
             body:
               mimeType: application/json
-              text: 123123biba_boba_bebra123123цйуйцу8888888888temp
+              text: normal-signature
             headers:
               - name: Content-Type
                 value: application/json
@@ -255,11 +813,11 @@ cookieJar:
   meta:
     id: jar_99d30891da4bdcebc63947a8fc17f076de878684
     created: 1743793401070
-    modified: 1743793561705
+    modified: 1744323821994
 environments:
   name: Base Environment
   meta:
     id: env_99d30891da4bdcebc63947a8fc17f076de878684
     created: 1743793400862
-    modified: 1743793561706
+    modified: 1744323821995
     isPrivate: false

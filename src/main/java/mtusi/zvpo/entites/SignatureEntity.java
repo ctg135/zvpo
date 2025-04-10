@@ -48,6 +48,7 @@ public class SignatureEntity {
         result.id = this.id;
         result.threatName = this.threatName;
         result.firstBytes = this.firstBytes;
+        result.firstBytesHash = this.firstBytesHash;
         result.remainderHash = this.remainderHash;
         result.remainderLength = this.remainderLength;
         result.fileType = this.fileType;

@@ -69,15 +69,33 @@ public class SignatureController {
     @PostMapping
     @RequestMapping("/add")
     public ResponseEntity<SignatureEntity> addSignature(
-            @RequestBody SignatureAddRaw add){
+            @RequestBody SignatureAddRow add){
         // Создает сигнатуру по запросу
         var algorithm = new RabinKarpAlgorithm();
-        var signature = algorithm.extractSignature(add.input);
 
+        // Проверка на корректное указание входных данных
+        add.offsetStart = add.offsetStart == null ? 0 : add.offsetStart;
+        add.offsetEnd = add.offsetEnd == null ? add.input.length() : add.offsetEnd;
+
+        if (add.offsetStart >= add.offsetEnd) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        add.fileType = add.fileType == null ? "raw" : add.fileType;
+
+        // Расчет сигнатуры
+        var signature = algorithm.extractSignature(
+                add.input.substring(
+                        add.offsetStart,
+                        add.offsetEnd
+                )
+        );
         signature.id = null;
         signature.fileType = add.fileType;
         signature.threatName = add.name;
         signature.updatedAt = new Date();
+        signature.offsetStart = add.offsetStart;
+        signature.offsetEnd = add.offsetEnd;
         signature.status = "ACTUAL";
         var addedItem = this.signatureRepository.save(signature);
 
@@ -121,26 +139,25 @@ public class SignatureController {
     @PostMapping
     @RequestMapping("/update")
     public ResponseEntity<SignatureEntity> updateSignature(
-            @RequestBody SignatureEntity signature){
+            @RequestBody SignatureEntity updatedSignature){
         // Обновление сигнатуры
-        // TODO: Сделать как в /add чтобы сигнатура перерасчитывалась сама
-        var old = signatureRepository.findById(signature.id);
+
+        var old = signatureRepository.findById(updatedSignature.id);
 
         if (old.isEmpty())
             return ResponseEntity.status(404).build();
 
         var oldSignature = old.get().clone();
-        signature.id = null;
-        signature.updatedAt = new Date();
-        var newSignature = signatureRepository.save(signature);
+        updatedSignature.id = oldSignature.id;
+        updatedSignature.updatedAt = new Date();
+        var newSignature = signatureRepository.save(updatedSignature);
 
         AuditEntity audit = AuditEntity.generateUpdated(oldSignature, newSignature);
         auditRepository.save(audit);
-        HistoryEntity history = HistoryEntity.generate(oldSignature);
-        historyRepository.save(history);
 
         oldSignature.status = "UPDATED";
-        signatureRepository.save(oldSignature);
+        HistoryEntity history = HistoryEntity.generate(oldSignature);
+        historyRepository.save(history);
 
         return ResponseEntity.status(200).body(newSignature);
     }
