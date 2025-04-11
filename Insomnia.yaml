@@ -9,21 +9,21 @@ collection:
     meta:
       id: fld_971c48a85acc47e38eaaa24d48fd2475
       created: 1743943993108
-      modified: 1744323821996
+      modified: 1744398963079
       sortKey: -1743943993108
     children:
       - name: Signatures
         meta:
           id: fld_cc9375c424854d47a70db9723fffb1e5
           created: 1743944007075
-          modified: 1744323821996
+          modified: 1744398963079
           sortKey: -1743944007075
         children:
           - name: Common test API
             meta:
               id: fld_99a4fca48c4841e6916cfb0f7a12ef6a
               created: 1744317044251
-              modified: 1744323821996
+              modified: 1744398963079
               sortKey: -1744222751384
             children:
               - url: "{{ _.base_url }}{{ _.path }}/add"
@@ -31,7 +31,7 @@ collection:
                 meta:
                   id: req_6bec3a273cbd41da93667137bcd38196
                   created: 1744317498051
-                  modified: 1744323179295
+                  modified: 1744398710206
                   isPrivate: false
                   sortKey: -1744317504116
                 method: POST
@@ -79,7 +79,7 @@ collection:
                 meta:
                   id: req_5babf35afac742ed8037b6427a6b2bfc
                   created: 1744317851555
-                  modified: 1744322306353
+                  modified: 1744399003686
                   isPrivate: false
                   sortKey: -1744130756307
                 method: POST
@@ -122,7 +122,7 @@ collection:
                 meta:
                   id: req_eb937469d8fd4fdb9e5deddc3436ad31
                   created: 1744318697970
-                  modified: 1744321406553
+                  modified: 1744398698246
                   isPrivate: false
                   sortKey: -1744130756207
                 method: POST
@@ -555,7 +555,7 @@ collection:
                 });
             environment:
               normal-signature-with-offset:
-                id: 3dfa5dd8-8054-48e8-a88f-cd75d6ff1a60
+                id: 921121f4-2d81-4416-a7db-da203b2ce6e7
                 threatName: normal-signature-with-offset
                 firstBytes: normal-s
                 firstBytesHash: 104
@@ -564,10 +564,10 @@ collection:
                 fileType: txt
                 offsetStart: 7
                 offsetEnd: 32
-                updatedAt: 2025-04-10T22:23:41.304+00:00
+                updatedAt: 2025-04-11T19:16:01.039+00:00
                 status: ACTUAL
               normal-signature:
-                id: 3dfa5dd8-8054-48e8-a88f-cd75d6ff1a60
+                id: 921121f4-2d81-4416-a7db-da203b2ce6e7
                 threatName: normal-signature-with-offset
                 firstBytes: normal-s
                 firstBytesHash: 104
@@ -576,14 +576,14 @@ collection:
                 fileType: txt
                 offsetStart: 7
                 offsetEnd: 32
-                updatedAt: 2025-04-10T22:23:41.730+00:00
+                updatedAt: 2025-04-11T19:16:02.260+00:00
                 status: ACTUAL
           - url: "{{ _.base_url }}{{ _.path }}/get"
             name: Get Actual
             meta:
               id: req_672bd95ba24f425ab6ba862475145b25
               created: 1743943995675
-              modified: 1744323698700
+              modified: 1744398623346
               isPrivate: false
               sortKey: -1743944008498
             method: GET
@@ -661,7 +661,7 @@ collection:
             meta:
               id: req_096fad06d5e3407dbef0f9e6535e91a1
               created: 1743946527487
-              modified: 1744316794066
+              modified: 1744397692413
               isPrivate: false
               sortKey: -1743944008348
             method: POST
@@ -669,8 +669,10 @@ collection:
               mimeType: application/json
               text: |-
                 {
-                	"name": "normal-signature",
-                	"input": "normal-signature"
+                	"threatName": "signature-name",
+                	"fileType": "txt",
+                	"input": "input",
+                	"offsetStart": 0
                 }
             headers:
               - name: Content-Type
@@ -784,16 +786,16 @@ collection:
             meta:
               id: req_0921eccd4e40430db48ca5c1d8811809
               created: 1744134986023
-              modified: 1744316798553
+              modified: 1744399132155
               isPrivate: false
               sortKey: -1743944008323
             method: POST
             body:
-              mimeType: application/json
+              mimeType: text/plain
               text: normal-signature
             headers:
               - name: Content-Type
-                value: application/json
+                value: text/plain
               - name: User-Agent
                 value: insomnia/11.0.2
             settings:
@@ -806,6 +808,98 @@ collection:
               rebuildPath: true
         environment:
           path: /signature
+        environmentPropertyOrder:
+          "&":
+            - path
+      - name: Files
+        meta:
+          id: fld_5c9c4d45804d4ad0a0f759596cd02830
+          created: 1744394247493
+          modified: 1744394739921
+          sortKey: -1744394247493
+        children:
+          - url: "{{ _.base_url }}{{ _.path }}/upload"
+            name: Upload file
+            meta:
+              id: req_4ae1d4cfe4f84e83916bb82d2eab4f8b
+              created: 1744394256102
+              modified: 1744398977816
+              isPrivate: false
+              sortKey: -1744394256102
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - id: pair_92a53d0b05d240179556d63e0f687f55
+                  name: file
+                  disabled: false
+                  type: file
+                  fileName: D:\code\zvpo\target\test-file.txt
+            headers:
+              - name: Content-Type
+                value: multipart/form-data
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}{{ _.path }}/download/1"
+            name: Download file
+            meta:
+              id: req_eb5e104f742542d79b1dd427541ea2b1
+              created: 1744394585063
+              modified: 1744394908503
+              isPrivate: false
+              sortKey: -1744394256002
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}{{ _.path }}/upload"
+            name: Upload EICAR file
+            meta:
+              id: req_f43b603965684376af34a32f348c66c6
+              created: 1744395986102
+              modified: 1744397985891
+              isPrivate: false
+              sortKey: -1744394256052
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - id: pair_92a53d0b05d240179556d63e0f687f55
+                  name: file
+                  disabled: false
+                  type: file
+                  fileName: D:\code\zvpo\target\eicar.com
+            headers:
+              - name: Content-Type
+                value: multipart/form-data
+              - name: User-Agent
+                value: insomnia/11.0.2
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+        environment:
+          path: /file
     environment:
       base_url: http://127.0.0.1:8080
 cookieJar:
@@ -813,11 +907,11 @@ cookieJar:
   meta:
     id: jar_99d30891da4bdcebc63947a8fc17f076de878684
     created: 1743793401070
-    modified: 1744323821994
+    modified: 1744398963076
 environments:
   name: Base Environment
   meta:
     id: env_99d30891da4bdcebc63947a8fc17f076de878684
     created: 1743793400862
-    modified: 1744323821995
+    modified: 1744398963077
     isPrivate: false
